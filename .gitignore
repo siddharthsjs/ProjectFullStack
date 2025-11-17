@@ -1,2 +1,7 @@
 .vs/
 BankCustomerAPI/.vs/
+bin/
+obj/
+.vs/
+*.user
+*.suo

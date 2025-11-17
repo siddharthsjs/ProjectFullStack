@@ -19,6 +19,8 @@ namespace BankCustomerAPI.Data
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,6 +60,24 @@ namespace BankCustomerAPI.Data
                 .HasOne(a => a.PowerOfAttorneyUser)
                 .WithMany()
                 .HasForeignKey(a => a.PowerOfAttorneyUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<RefreshToken>()
+    .HasOne(rt => rt.User)
+    .WithMany()
+    .HasForeignKey(rt => rt.UserId)
+    .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Transaction>()
+    .HasOne(t => t.Account)
+    .WithMany(a => a.Transactions)
+    .HasForeignKey(t => t.AccountId)
+    .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.InitiatedBy)
+                .WithMany()
+                .HasForeignKey(t => t.InitiatedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<UserRole>()

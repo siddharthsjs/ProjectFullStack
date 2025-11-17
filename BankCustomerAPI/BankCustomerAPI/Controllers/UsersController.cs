@@ -21,7 +21,8 @@ namespace BankCustomerAPI.Controllers
 
         // GET: api/users - Requires ReadUser permission
         [HttpGet]
-    
+        [Authorize(Policy = "RequireReadUser")]
+
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _context.Users
@@ -45,7 +46,8 @@ namespace BankCustomerAPI.Controllers
 
         // GET: api/users/{id} - Requires ReadUser permission
         [HttpGet("{id}")]
-   
+        [Authorize(Policy = "RequireReadUser")]
+
         public async Task<IActionResult> GetUser(int id)
         {
             var user = await _context.Users
@@ -72,7 +74,8 @@ namespace BankCustomerAPI.Controllers
 
         // POST: api/users - Requires CreateUser permission
         [HttpPost]
-       
+        [Authorize(Policy = "RequireCreateUser")]
+
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {
             if (await _context.Users.AnyAsync(u => u.Email == request.Email))
@@ -98,7 +101,8 @@ namespace BankCustomerAPI.Controllers
 
         // PUT: api/users/{id} - Requires CreateUser permission (for update)
         [HttpPut("{id}")]
-     
+        [Authorize(Policy = "RequireCreateUser")]
+
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserRequest request)
         {
             var user = await _context.Users.FindAsync(id);
@@ -116,7 +120,8 @@ namespace BankCustomerAPI.Controllers
 
         // DELETE: api/users/{id} - Requires DeleteUser permission
         [HttpDelete("{id}")]
-      
+        [Authorize(Policy = "RequireDeleteUser")]
+
         public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await _context.Users.FindAsync(id);
@@ -129,6 +134,7 @@ namespace BankCustomerAPI.Controllers
             return Ok(new { message = "User deleted successfully" });
         }
     }
+
 
     public class CreateUserRequest
     {

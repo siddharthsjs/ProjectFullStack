@@ -19,6 +19,6 @@
         public User User { get; set; }
         public Branch Branch { get; set; }
         public User PowerOfAttorneyUser { get; set; }
-     //   public ICollection<Transaction> Transactions { get; set; }
+      public ICollection<Transaction> Transactions { get; set; }
     }
 }
